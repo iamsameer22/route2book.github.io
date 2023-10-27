@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Passenger List</title>
+    <style>
+        /* CSS for passengerlist.html */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #fff9e9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .passenger-list-container {
+            padding: 20px;
+            width: 80%;
+            max-width: 600px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 34px;
+            color: #22242b;
+        }
+
+        p {
+            font-size: 18px;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+
+        .passenger-list {
+            text-align: left;
+            margin-top: 20px;
+        }
+
+        .passenger {
+            margin-bottom: 10px;
+            color: #fff;
+            background-color: #22242b;
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 5px;
+            position: relative;
+        }
+
+        .passenger label {
+            font-weight: bold;
+        }
+
+        .max-members {
+            margin-top: 10px;
+            color: #474646;
+        }
+
+        .back-button {
+            margin-top: 20px;
+            background-color: #ccc;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        .add-passenger-form {
+            display: none;
+            animation: fade-in 0.5s;
+        }
+
+        .edit-button {
+            background-color: #fdc521;
+            color: #2d2f38;
+            border: none;
+            border-radius: 3px;
+            padding: 5px 10px;
+            cursor: pointer;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+
+        .edit-button:hover {
+            background-color: #ffce3a;
+        }
+
+        @keyframes fade-in {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        #addPassengerButton {
+            background-color: #fdc521;
+            color: #2d2f38;
+            border-color: #080707;
+            border: solid 2.4px;
+            border-radius: 8px;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+            justify-content: center;
+        }
+
+        /* Custom CSS for info messages */
+        .info-message {
+            color: #888;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        .input-container label {
+            font-weight: bold;
+            display: block;
+            font-size: 20px;
+            margin-bottom: 12px;
+            color: #2d2f38;
+        }
+
+        .input-container input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border: solid 2.5px;
+            background-color: #f9cd4b;
+            border-radius: 5px;
+            outline: none;
+            font-size: 18px;
+            transition: border 0.3s;
+            font-weight: bold;
+        }
+
+        ::placeholder {
+          color: #080707;
+        }
+
+        ::selection {
+          background-color: #22242b;
+          color: #fdc521;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="passenger-list-container">
+        <h1>Passenger List</h1>
+
+        <div class="passenger-list">
+            <!-- Passenger List will be displayed here. You can add passengers dynamically using JavaScript. -->
+        </div>
+
+        <p class="max-members" id="maxMembersMessage"></p>
+
+        <!-- Error and info messages -->
+        <p class="info-message" id="errorMessageBox" style="display: none; color: red;"></p>
+        <p class="info-message" id="infoMessageBox" style="display: none;"></p>
+
+        <!-- Button to add a new passenger -->
+        <button id="addPassengerButton" onclick="showAddPassengerForm()">Add Passenger</button>
+
+        <!-- Add Passenger Form -->
+        <div class="add-passenger-form" id="addPassengerForm">
+            <h2>Add Passenger</h2>
+            <div class="input-field">
+                <label for="fullname">Full Name</label>
+                <input type="text" id="fullname" required>
+            </div>
+            <div class="input-field design">
+                <label for="age">Age</label>
+                <input type="number" id="age" required>
+            </div>
+            <div class="input-field">
+                <label for="gender">Gender</label>
+                <select id="gender" required>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+            <div class="input-field">
+                <label for="nationality">Nationality</label>
+                <select id="nationality" name="nationality" required>
+                    <option value="indian" selected>Indian</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+            <button onclick="addPassenger()">Save</button>
+        </div>
+
+        <br>
+       <!-- Back Arrow -->
+    <span class="back-arrow" onclick="goBack()" style="font-size: 42px;">&#8592;</span>
+    </div>
+
+    <script>
+        // JavaScript code for passengerlist.html
+        const passengerList = document.querySelector(".passenger-list");
+        const maxMembersMessage = document.getElementById("maxMembersMessage");
+        const noPassengersMessage = document.getElementById("noPassengersMessage");
+        const addPassengerButton = document.getElementById("addPassengerButton");
+        const addPassengerForm = document.getElementById("addPassengerForm");
+
+        let passengers = [];
+
+        // Function to show the Add Passenger form
+        function showAddPassengerForm() {
+            addPassengerForm.style.display = "block";
+            addPassengerForm.style.animation = "fade-in 0.5s";
+            addPassengerButton.style.display = "none";
+        }
+
+        // Function to add a new passenger
+        function addPassenger() {
+            const fullname = document.getElementById("fullname").value;
+            const age = parseInt(document.getElementById("age").value);
+            const gender = document.getElementById("gender").value;
+            const nationality = document.getElementById("nationality").value;
+
+            // Check if any of the fields are empty
+            if (fullname === "" || isNaN(age) || gender === "" || nationality === "") {
+                showError("Please fill out all fields.");
+                return;
+            }
+
+            if (passengers.length < 6) {
+                passengers.push({ fullname, age, gender, nationality });
+                renderPassengerList();
+                resetAddPassengerForm();
+                savePassengersToLocalStorage();
+                showInfo(`Passenger added. You've added ${passengers.length}/6 passengers. You can add ${6 - passengers.length} more passengers.`);
+            } else {
+                showError("You can't add more than 6 passengers.");
+            }
+        }
+
+        // Function to reset the Add Passenger form
+        function resetAddPassengerForm() {
+            document.getElementById("fullname").value = "";
+            document.getElementById("age").value = "";
+            document.getElementById("gender").value = "male";
+            document.getElementById("nationality").value = "indian";
+            addPassengerForm.style.display = "none";
+            addPassengerButton.style.display = "block";
+        }
+
+        // Function to render the passenger list
+        function renderPassengerList() {
+            passengerList.innerHTML = "";
+            passengers.forEach((passenger, index) => {
+                const passengerDiv = document.createElement("div");
+                passengerDiv.className = "passenger";
+                passengerDiv.innerHTML = `
+                    <p><strong>Passenger ${index + 1}</strong></p>
+                    <p><strong>Name:</strong> ${passenger.fullname}</p>
+                    <p><strong>Age:</strong> ${passenger.age}</p>
+                    <p><strong>Gender:</strong> ${passenger.gender}</p>
+                    <p><strong>Nationality:</strong> ${passenger.nationality}</p>
+                    <button class="edit-button" onclick="editPassenger(${index})">Edit</button>
+                `;
+                passengerList.appendChild(passengerDiv);
+            });
+            maxMembersMessage.innerHTML = `You've added ${passengers.length}/6 passengers. You can add ${6 - passengers.length} more passengers.`;
+        }
+
+        // Function to edit a passenger
+        function editPassenger(index) {
+            const passenger = passengers[index];
+            document.getElementById("fullname").value = passenger.fullname;
+            document.getElementById("age").value = passenger.age;
+            document.getElementById("gender").value = passenger.gender;
+            document.getElementById("nationality").value = passenger.nationality;
+
+            passengers.splice(index, 1);
+            renderPassengerList();
+            showAddPassengerForm();
+        }
+
+        // Function to navigate back to Fill Data
+        function goBack() {
+            window.location.href = "filldata.html";
+        }
+
+        // Function to save passengers to local storage
+        function savePassengersToLocalStorage() {
+            localStorage.setItem("passengers", JSON.stringify(passengers));
+        }
+
+        // Function to load passengers from local storage
+        function loadPassengersFromLocalStorage() {
+            const storedPassengers = localStorage.getItem("passengers");
+            if (storedPassengers) {
+                passengers = JSON.parse(storedPassengers);
+                renderPassengerList();
+            }
+        }
+
+        // Load passengers when the page loads
+        loadPassengersFromLocalStorage();
+
+        // Function to display an error message
+        function showError(message) {
+            const errorMessageBox = document.getElementById("errorMessageBox");
+            errorMessageBox.style.display = "block";
+            errorMessageBox.textContent = message;
+        }
+
+        // Function to display an info message
+        function showInfo(message) {
+            const infoMessageBox = document.getElementById("infoMessageBox");
+            infoMessageBox.style.display = "block";
+            infoMessageBox.textContent = message;
+        }
+    </script>
+</body>
+</html>

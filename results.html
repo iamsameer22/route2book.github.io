@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results</title>
+    <style>
+        /* Add your CSS for results.html here */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #fff9e9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .results-container {
+            padding: 20px;
+            width: 80%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 34px;
+            color: #22242b;
+        }
+
+        p {
+            font-size: 18px;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+
+        .train-info {
+            margin: 20px 0;
+            border: 2px solid #ffd043;
+            border-radius: 5px;
+            padding: 10px;
+            background-color: #ffd043;
+            color: #fff;
+        }
+
+        .train-class {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 6px;
+            color: #333;
+        }
+
+        .train-name {
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 6px;
+            color: #333;
+        }
+
+        .train-number {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .train-details {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .section {
+            width: 32%;
+        }
+
+        .time-line {
+            background-color: #fdc521;
+            color: #000000;
+            font-weight: bold;
+            text-align: center;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        .travel-time {
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        .bottom-border {
+            border-bottom: 1px solid #131212;
+            margin: 20px 0;
+        }
+
+        .price {
+            font-size: 20px;
+            color: #333;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .price-left {
+            flex: 1;
+            text-align: left;
+        }
+
+        .price-right {
+            flex: 1;
+            text-align: right;
+            display: flex;
+            align-items: center;
+        }
+
+        .availability {
+            display: inline-block;
+            font-size: 16px;
+            margin-right: 10px;
+        }
+
+        .book-button {
+            background-color: #333;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-left: 30px;
+            font-size: 16px;
+        }
+
+        .timeline {
+            width: 100%;
+            height: 2px;
+            background-color: #fdc521;
+            position: relative;
+            margin: 10px 0;
+        }
+
+        .timeline-marker {
+            width: 10px;
+            height: 10px;
+            background-color: #fdc521;
+            border-radius: 50%;
+            position: absolute;
+            top: -4px;
+        }
+
+        .timeline-marker.start {
+            left: 0;
+        }
+
+        .timeline-marker.end {
+            right: 0;
+        }
+
+        .resultsonpart {
+            background-color: #333;
+            padding: 12px;
+            border-radius: 10px;
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="results-container">
+        <h1>Results</h1>
+        <p>Hello, <span id="userNickname"></span>! Here are your search results:</p>
+
+        <div class="resultsonpart">
+            <div class="train-info">
+                <div class="train-class" id="selectedClass"></div>
+                <div class="train-name" id="trainName"></div>
+                <div class="train-number" id="trainNumber"></div>
+            </div>
+    
+            <div class="train-details">
+                <div class="section">
+                    <div class="time-line" id="departureTime"></div>
+                    <div id="departureStation" style="margin-bottom: 6px;"></div>
+                    <div id="departureStationCode"></div>
+                </div>
+                <div class="section">
+                    <div id="travelTime" class="travel-time"></div>
+                    <div class="timeline">
+                        <div class="timeline-marker start"></div>
+                        <div class="timeline-marker end"></div>
+                    </div>
+                </div>
+                <div class="section">
+                    <div class="time-line" id="arrivalTime"></div>
+                    <div id="arrivalStation" style="margin-bottom: 6px;"></div>
+                    <div id="arrivalStationCode"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bottom-border"></div>
+        <div class="price" id="ticketPrice">
+            <div class="price-left">499/person <span class="availability">Available: 10</span></div>
+            <div class="price-right">
+                <button class="book-button" id="bookButton">Book Ticket</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript code for results.html
+        const params = new URLSearchParams(location.search);
+        const userNickname = params.get("nickname");
+        const selectedClass = params.get("class");
+        const trainName = "Hello Express";
+        const trainNumber = "122002";
+        const departureStation = params.get("from");
+        const arrivalStation = params.get("to");
+        const departureStationCode = "ST1";
+        const arrivalStationCode = "ST2";
+        const departureTime = "10:00 AM";
+        const arrivalTime = "12:00 PM";
+        const travelTime = "2 hours";
+        const ticketPrice = "499/person";
+
+        document.getElementById("userNickname").textContent = userNickname;
+        document.getElementById("selectedClass").textContent = selectedClass;
+        document.getElementById("trainName").textContent = trainName;
+        document.getElementById("trainNumber").textContent = trainNumber;
+        document.getElementById("departureStation").textContent = departureStation;
+        document.getElementById("arrivalStation").textContent = arrivalStation;
+        document.getElementById("departureStationCode").textContent = departureStationCode;
+        document.getElementById("arrivalStationCode").textContent = arrivalStationCode;
+        document.getElementById("departureTime").textContent = departureTime;
+        document.getElementById("arrivalTime").textContent = arrivalTime;
+        document.getElementById("travelTime").textContent = travelTime;
+
+        const bookButton = document.getElementById("bookButton");
+        bookButton.addEventListener("click", () => {
+            // Redirect to booking.html and pass data as query parameters
+            const queryParams = new URLSearchParams();
+            queryParams.set("nickname", userNickname);
+            queryParams.set("class", selectedClass);
+            queryParams.set("trainName", trainName);
+            queryParams.set("trainNumber", trainNumber);
+            queryParams.set("departureStation", departureStation);
+            queryParams.set("arrivalStation", arrivalStation);
+            queryParams.set("departureStationCode", departureStationCode);
+            queryParams.set("arrivalStationCode", arrivalStationCode);
+            queryParams.set("departureTime", departureTime);
+            queryParams.set("arrivalTime", arrivalTime);
+            queryParams.set("travelTime", travelTime);
+            queryParams.set("ticketPrice", ticketPrice);
+
+            // Redirect to booking.html with query parameters
+            window.location.href = `booking.html?${queryParams.toString()}`;
+        });
+    </script>
+</body>
+
+</html>

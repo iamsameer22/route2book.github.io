@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Information</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <style>
+        /* CSS for account.html */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #fff9e9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: start;
+            align-items: start;
+            height: 100vh;
+        }
+
+        .account-container {
+            border-radius: 10px;
+            padding: 20px;
+            width: 80%;
+            max-width: 400px;
+            text-align: start;
+            transition: all 0.3s ease;
+            margin-top: -20px;
+            position: relative; /* Added this line */
+        }
+
+        .account-container:hover {
+            transform: scale(1.03);
+        }
+
+        h1 {
+            font-size: 34px;
+            color: #22242b;
+        }
+
+        p {
+            font-size: 18px;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+
+        span {
+            font-weight: 500;
+        }
+
+        /* Edit and Save buttons */
+        .edit-save-buttons {
+            margin-top: 20px;
+            display: flex;
+            justify-content: start;
+            gap: 20px;
+        }
+
+        .edit-button,
+        .save-button {
+            background-color: #fdc521;
+            color: #2d2f38;
+            border-color: #080707;
+            border: solid 2.4px;
+            border-radius: 8px;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .edit-button:hover,
+        .save-button:hover {
+            background-color: #ffd556;
+        }
+
+        /* Animation for button hover effect */
+        .edit-button:hover,
+        .save-button:hover {
+            animation: buttonHover 0.5s infinite;
+        }
+
+        /* Underline effect when editing */
+        .underline-editing {
+            text-decoration: underline;
+        }
+
+        .editable {
+            cursor: pointer;
+        }
+
+        .edit-border {
+            border: 2px solid #ffd556;
+            padding: 10px;
+            border-radius: 5px;
+            display: inline-block;
+        }
+
+        /* Back arrow */
+        .back-arrow {
+            position: absolute;
+            top: 45px;
+            right: 30px;
+            font-size: 24px;
+            font-weight: bolder;
+            cursor: pointer;
+        }
+
+        ::placeholder {
+            color: #080707;
+        }
+
+        ::selection {
+            background-color: #22242b;
+            color: #fdc521;
+        }
+
+        @keyframes buttonHover {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+            100% { transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="account-container">
+        <h1>Account Information</h1>
+        <p>Nickname: <span id="accountNickname"></span></p>
+        <p>Full Name: <span id="accountFullName" class="editable"></span></p>
+        <p>Phone Number: <span id="accountPhone" class="editable"></span></p>
+        <p>Email Address: <span id="accountEmail" class="editable"></span></p>
+
+        <div class="edit-save-buttons">
+            <button class="edit-button" id="editButton" onclick="enableEditing()">Edit</button>
+            <button class="save-button" id="saveButton" style="display: none;" onclick="saveChanges()">Save</button>
+        </div>
+    </div>
+    
+    <!-- Back Arrow -->
+    <span class="back-arrow" onclick="goBack()">&#8592;</span>
+
+    <script>
+        // JavaScript code for account.html
+        const userNickname = localStorage.getItem("userNickname");
+        const userFullName = localStorage.getItem("userFullName");
+        const userPhone = localStorage.getItem("userPhone");
+        const userEmail = localStorage.getItem("userEmail");
+
+        document.getElementById("accountNickname").textContent = userNickname;
+        document.getElementById("accountFullName").textContent = userFullName;
+        document.getElementById("accountPhone").textContent = userPhone;
+        document.getElementById("accountEmail").textContent = userEmail;
+
+        function enableEditing() {
+            const fullName = document.getElementById("accountFullName");
+            const phone = document.getElementById("accountPhone");
+            const email = document.getElementById("accountEmail");
+            fullName.contentEditable = "true";
+            phone.contentEditable = "true";
+            email.contentEditable = "true";
+            fullName.classList.add("underline-editing");
+            phone.classList.add("underline-editing");
+            email.classList.add("underline-editing");
+            document.getElementById("editButton").style.display = "none";
+            document.getElementById("saveButton").style.display = "block";
+        }
+
+        function saveChanges() {
+            const editedFullName = document.getElementById("accountFullName").textContent;
+            const editedPhone = document.getElementById("accountPhone").textContent;
+            const editedEmail = document.getElementById("accountEmail").textContent;
+
+            localStorage.setItem("userFullName", editedFullName);
+            localStorage.setItem("userPhone", editedPhone);
+            localStorage.setItem("userEmail", editedEmail);
+
+            const fullName = document.getElementById("accountFullName");
+            const phone = document.getElementById("accountPhone");
+            const email = document.getElementById("accountEmail");
+            fullName.contentEditable = "false";
+            phone.contentEditable = "false";
+            email.contentEditable = "false";
+            fullName.classList.remove("underline-editing");
+            phone.classList.remove("underline-editing");
+            email.classList.remove("underline-editing");
+            document.getElementById("saveButton").style.display = "none";
+            document.getElementById("editButton").style.display = "block";
+        }
+
+        // Function to go back to the previous page
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+</body>
+</html>

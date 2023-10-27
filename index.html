@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Train Booking - Home</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #fff9e9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                justify-content: flex-start; /* Align content to the top on smaller screens */
+            }
+        }
+
+        .container {
+            /* background-color: #fff;
+            border: 1px solid #ccc; */
+            /* border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); */
+            padding: 20px 20px 20px 20px;
+            width: 80%;
+            max-width: 400px;
+            text-align: left;
+            margin-bottom: -460px;
+        }
+
+        h1 {
+            font-size: 64px;
+            color: #22242b;
+            margin-bottom: -1px;
+        }
+
+        .input-container {
+            margin-top: 22px;
+            margin-bottom: 15px;
+        }
+
+        .input-container label {
+            font-weight: bold;
+            display: block;
+            font-size: 20px;
+            margin-bottom: 12px;
+            color: #2d2f38;
+        }
+
+        .input-container input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border: solid 2.5px;
+            background-color: #f9cd4b;
+            border-radius: 5px;
+            outline: none;
+            font-size: 18px;
+            transition: border 0.3s;
+            font-weight: bold;
+        }
+
+        ::placeholder {
+          color: #080707;
+        }
+
+        ::selection {
+          background-color: #22242b;
+          color: #fdc521;
+        }
+
+        .input-container input[type="text"]:focus {
+            border: 3px solid #080707;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: start;
+            align-items: start;
+            margin-top: 28px;
+        }
+
+        .button {
+            background-color: #fdc521;
+            color: #2d2f38;
+            border-color: #080707;
+            border: solid 2.4px;
+            border-radius: 8px;
+            padding: 14px 20px;
+            cursor: pointer;
+            font-size: 20px;
+            margin: 5px 5px 5px 0px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome</h1>
+
+        <div class="input-container">
+            <label for="nickname">Nickname</label>
+            <input type="text" id="nickname" required placeholder="You can't change it">
+        </div>
+
+        <div class="button-container">
+            <button class="button" id="getStartedButton">Get Started</button>
+        </div>
+    </div>
+
+    <script>
+        const nicknameInput = document.getElementById("nickname");
+
+        document.getElementById("getStartedButton").addEventListener("click", function() {
+            const nickname = nicknameInput.value;
+            localStorage.setItem("userNickname", nickname);
+            window.location.href = "filldata.html";
+        });
+    </script>
+</body>
+</html>

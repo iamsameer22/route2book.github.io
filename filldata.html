@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Train Booking</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #fff9e9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            padding: 20px;
+            width: 100%;
+            max-width: 400px;
+            text-align: left;
+            margin-top: -230px;
+        }
+
+        h1 {
+            text-align: start;
+            font-size: px;
+            width: 75%;
+            color: #22242b;
+            margin-bottom: -1px;
+        }
+
+        .profile-pic {
+            border-radius: 50%;
+            width: 70px;
+            height: 70px;
+            display: inline-block;
+            margin-right: 18px;
+            margin-top: 16px;
+            cursor: pointer;
+        }
+
+        .profile-pic img {
+            border-radius: 50%;
+            width: 100%;
+            height: 100%;
+        }
+
+        .greeting {
+            display: flex;
+            align-items: center;
+        }
+
+        p {
+            text-align: start;
+            font-size: 16px;
+            font-weight: 700px;
+            background-color: #ffd556;
+            padding: 4px 4px 4px 10px;
+            border-radius: 30px;
+            font-weight: bolder;
+        }
+
+        .input-container {
+            margin-bottom: 15px;
+        }
+
+        .input-container label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .custom-dropdown {
+            width: 100%;
+            padding: 10px 0px 10px 10px;
+            border: solid 2.5px;
+            background-color: #fff8e4;
+            border-radius: 10px;
+            outline: none;
+            font-size: 18px;
+            transition: border 0.3s;
+            font-weight: bold;
+        }
+
+        /* Style for mobile view to remove default browser styling */
+        @media (max-width: 768px) {
+            .custom-dropdown {
+                -webkit-appearance: none;
+                appearance: none;
+                background-color: #fff8e4;
+                border: solid 2.5px;
+                border-radius: 10px;
+                outline: none;
+                font-size: 18px;
+                padding: 10px 0px 10px 10px;
+                transition: border 0.3s;
+                font-weight: bold;
+            }
+        }
+
+        .button-container {
+            justify-content: space-around;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .button {
+            background-color: #fdc521;
+            color: #2d2f38;
+            border-color: #080707;
+            border: solid 2.4px;
+            border-radius: 8px;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        ::placeholder {
+            color: #080707;
+        }
+
+        ::selection {
+            background-color: #22242b;
+            color: #fdc521;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Display the circular cropped image and the nickname received from index.html -->
+        <div class="greeting">
+            <div class="profile-pic" onclick="redirectToAccount()">
+                <img src="https://cdn.dribbble.com/users/1176657/screenshots/15468294/media/34af996ddff444391edab94abcf3c7f3.png?resize=1000x750&vertical=center" alt="Profile Picture">
+            </div>
+            <h1>Hello, <br> <span id="nickname"></span></h1>
+        </div>
+        <p>Fill in your train booking details</p>
+
+        <br>
+
+        <div class="input-container" style="width: 96%;">
+            <label for="from">From</label>
+            <input type="text" id="from" class="custom-dropdown" list="fromStations" required>
+            <datalist id="fromStations">
+                <!-- Add datalist options for "From" stations here -->
+                <option value="New Delhi">
+                <option value="Noida">
+                <option value="Uttar Pradesh">
+                <option value="Shimla">
+                <option value="Assam">
+                <option value="Lucknow">
+                <option value="Banaras">
+                <option value="Rajasthan">
+                <option value="Mumbai">
+                <option value="Kolkata">
+                <option value="Chennai">
+                <option value="Bangalore">
+                <option value="Hyderabad">
+                <option value="Pune">
+                <option value="Agra">
+                <option value="Jaipur">
+                <option value="Bhopal">
+                <option value="Varanasi">
+                <option value="Patna">
+                <option value="Ahmedabad">
+                <option value="Kochi">
+                <option value="Vadodara">
+                <option value="Indore">
+                <option value="Mysuru">
+                <option value="Kanpur">
+                <option value="Guwahati">
+                <option value="Nagpur">
+                <option value="Amritsar">
+                <option value="Lucknow">
+                <option value="Bhubaneswar">
+                <!-- Add more stations as needed -->
+            </datalist>
+        </div>
+        <div class="input-container" style="width: 96%;">
+            <label for="to">To</label>
+            <input type="text" id="to" class="custom-dropdown" list="toStations" required>
+            <datalist id="toStations">
+                <!-- Add datalist options for "To" stations here -->
+                <option value="New Delhi">
+                <option value="Noida">
+                <option value="Uttar Pradesh">
+                <option value="Shimla">
+                <option value="Assam">
+                <option value="Lucknow">
+                <option value="Banaras">
+                <option value="Rajasthan">
+                <option value="Mumbai">
+                <option value="Kolkata">
+                <option value="Chennai">
+                <option value="Bangalore">
+                <option value="Hyderabad">
+                <option value="Pune">
+                <option value="Agra">
+                <option value="Jaipur">
+                <option value="Bhopal">
+                <option value="Varanasi">
+                <option value="Patna">
+                <option value="Ahmedabad">
+                <option value="Kochi">
+                <option value="Vadodara">
+                <option value="Indore">
+                <option value="Mysuru">
+                <option value="Kanpur">
+                <option value="Guwahati">
+                <option value="Nagpur">
+                <option value="Amritsar">
+                <option value="Lucknow">
+                <option value="Bhubaneswar">
+                <!-- Add more stations as needed -->
+            </datalist>
+        </div>
+        <div class="input-container" style="width: 96%;">
+            <label for="departure">Departure Date</label>
+            <input type="date" id="departure" class="custom-dropdown" min="2023-10-26" required>
+        </div>
+        <div class="input-container" style="width: 100%;">
+            <label for="class">Class</label>
+            <select id="class" class="custom-dropdown">
+                <option value="SL">Sleeper (SL)</option>
+                <option value="AC3">AC 3-Tier (AC3)</option>
+                <option value="AC2">AC 2-Tier (AC2)</option>
+                <option value="AC1">AC 1-Tier (AC1)</option>
+                <option value="STD">Standard (STD)</option>
+            </select>
+        </div>
+
+        <div class="button-container">
+            <button class="button" id="searchButton" onclick="redirectToResults()"><b>SEARCH TRAIN</b></button> <br><br>
+            <!-- <button class="button" id="passengerListButton" onclick="redirectToPassengerList()">PASSENGER</button> -->
+        </div>
+    </div>
+
+    <script>
+        const nickname = localStorage.getItem("userNickname");
+        document.getElementById("nickname").textContent = nickname;
+
+        function redirectToAccount() {
+            window.location.href = "account.html";
+        }
+
+        function redirectToPassengerList() {
+            window.location.href = "passengerlist.html";
+        }
+
+        function redirectToResults() {
+            const from = document.getElementById("from").value;
+            const to = document.getElementById("to").value;
+            const departure = document.getElementById("departure").value;
+            const selectedClass = document.getElementById("class").value;
+
+            window.location.href = `results.html?from=${from}&to=${to}&departure=${departure}&class=${selectedClass}&nickname=${nickname}`;
+        }
+
+        // JavaScript code for filtering stations based on user input
+        const fromInput = document.getElementById("from");
+        const toInput = document.getElementById("to");
+        const fromStationsDatalist = document.getElementById("fromStations");
+        const toStationsDatalist = document.getElementById("toStations");
+
+        // An array of all available stations
+        const allStations = [
+            "New Delhi", "Noida", "Uttar Pradesh", "Shimla", "Assam", "Lucknow", "Banaras", "Rajasthan", "Mumbai", "Kolkata", "Chennai", "Bangalore",
+            "Hyderabad", "Pune", "Agra", "Jaipur", "Bhopal", "Varanasi", "Patna", "Ahmedabad", "Kochi", "Vadodara", "Indore", "Mysuru", "Kanpur",
+            "Guwahati", "Nagpur", "Amritsar", "Lucknow", "Bhubaneswar", "Vijayawada", "Surat", "Chandigarh", "Jammu", "Dehradun", "Raipur",
+            "Srinagar", "Shillong", "Agartala", "Gangtok", "Itanagar", "Imphal", "Kohima", "Aizawl", "Panaji", "Thiruvananthapuram", "Bengaluru",
+            "Kohima", "Ranchi", "Bhopal"
+        ];
+
+        // Function to filter datalist options based on user input
+        function filterStations(userInput, datalist) {
+            datalist.innerHTML = ""; // Clear existing options
+            const filteredStations = allStations.filter(station => station.toLowerCase().includes(userInput.toLowerCase()));
+            filteredStations.forEach(station => {
+                const option = document.createElement("option");
+                option.value = station;
+                datalist.appendChild(option);
+            });
+        }
+
+        // Set the initial value for the datalist to the first station
+        fromInput.value = allStations[0];
+        toInput.value = allStations[0];
+
+        // Event listeners to filter datalist options as the user types
+        fromInput.addEventListener("input", () => filterStations(fromInput.value, fromStationsDatalist));
+        toInput.addEventListener("input", () => filterStations(toInput.value, toStationsDatalist));
+    </script>
+</body>
+</html>

@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Invoice</title>
+    <style>
+        /* Add your CSS for payment.html here */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #fff9e9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .invoice-container {
+            padding: 20px;
+            width: 80%;
+            max-width: 400px;
+            text-align: center;
+            background-color: #f0f0f0;
+            border-radius: 8px;
+        }
+
+        h1 {
+            font-size: 28px;
+            color: #22242b;
+        }
+
+        .invoice-details {
+            border: 2px solid #008CBA;
+            border-radius: 5px;
+            padding: 10px;
+            margin-top: 20px;
+            background-color: #fff;
+        }
+
+        .payment-option {
+            display: inline-block;
+            margin-right: 20px;
+        }
+
+        .wallet-balance {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+
+        #continueButton {
+            background-color: #008CBA;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        #continueButton:hover {
+            background-color: #005f7c;
+        }
+
+        .wifi-form {
+            display: none;
+            margin-top: 20px;
+        }
+
+        #phoneNumbers {
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        #phoneNumbersCount {
+            font-weight: normal;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="invoice-container">
+        <h1>Payment Invoice</h1>
+        <div class="invoice-details">
+            <!-- Invoice details will be displayed here -->
+        </div>
+        <div class="payment-option">
+            <label for="wifiCheckbox">Add WiFi (Rs. 19/passenger)</label>
+            <input type="checkbox" id="wifiCheckbox">
+        </div>
+        <div class="wallet-balance">
+            Wallet Balance: <span id="walletBalance">1000</span> INR
+        </div>
+        <div class="wifi-form" id="wifiForm">
+            <h2>Add WiFi</h2>
+            <label for="phoneNumber">Enter 10-digit Phone Number:</label>
+            <input type="text" id="phoneNumber" maxlength="10"><br><br>
+            <button id="addPhoneNumber" onclick="addPhoneNumber()">Add</button>
+            <div id="phoneNumbers">
+                Phone Numbers Added: <span id="phoneNumbersCount">0</span> / 6
+            </div>
+        </div>
+        <button id="continueButton" onclick="continueFromWallet()">Continue from Wallet</button>
+    </div>
+
+    <script>
+        // JavaScript code for payment.html
+        const passengers = 2; // Change this based on the number of passengers
+        const ticketPrice = 499;
+        const ticketTax = 23;
+        const wifiPrice = 19;
+        const wifiTax = 2.5;
+        let walletBalance = 1000;
+        let selectedPassengers = passengers;
+        let wifiUsers = 0;
+
+        document.getElementById("wifiCheckbox").addEventListener("change", toggleWiFiForm);
+
+        function toggleWiFiForm() {
+            const wifiForm = document.getElementById("wifiForm");
+            wifiForm.style.display = document.getElementById("wifiCheckbox").checked ? "block" : "none";
+        }
+
+        function addPhoneNumber() {
+            if (wifiUsers < 6) {
+                const phoneNumber = document.getElementById("phoneNumber").value;
+                if (phoneNumber.length === 10) {
+                    const phoneNumbersCount = document.getElementById("phoneNumbersCount");
+                    const phoneNumbers = wifiUsers + 1;
+                    phoneNumbersCount.textContent = phoneNumbers;
+                    wifiUsers++;
+                    document.getElementById("phoneNumber").value = "";
+                } else {
+                    alert("Please enter a valid 10-digit phone number.");
+                }
+            } else {
+                alert("You can add up to 6 phone numbers.");
+            }
+        }
+
+        function updateInvoice() {
+            const invoiceDetails = document.querySelector(".invoice-details");
+            const wifiCheckbox = document.getElementById("wifiCheckbox");
+            const wifiForm = document.getElementById("wifiForm");
+
+            let totalAmount = passengers * (ticketPrice + ticketTax);
+            if (wifiCheckbox.checked) {
+                totalAmount += wifiUsers * (wifiPrice + wifiTax);
+            }
+
+            invoiceDetails.innerHTML = `
+                <p><strong>Ticket Price:</strong> ${passengers} x ${ticketPrice} INR</p>
+                <p><strong>Ticket Tax:</strong> ${passengers} x ${ticketTax} INR</p>
+            `;
+
+            if (wifiCheckbox.checked) {
+                invoiceDetails.innerHTML += `
+                    <p><strong>WiFi Price:</strong> ${wifiUsers} x ${wifiPrice} INR</p>
+                    <p><strong>WiFi Tax:</strong> ${wifiUsers} x ${wifiTax} INR</p>
+                `;
+            }
+
+            invoiceDetails.innerHTML += `<hr><p><strong>Total Amount:</strong> ${totalAmount} INR</p>`;
+        }
+
+        function updateWalletBalance() {
+            const walletBalanceElement = document.getElementById("walletBalance");
+            walletBalanceElement.textContent = walletBalance.toFixed(2);
+        }
+
+        function continueFromWallet() {
+            const invoiceDetails = document.querySelector(".invoice-details");
+            const totalAmount = passengers * (ticketPrice + ticketTax);
+            if (document.getElementById("wifiCheckbox").checked) {
+                totalAmount += wifiUsers * (wifiPrice + wifiTax);
+            }
+
+            if (walletBalance >= totalAmount) {
+                walletBalance -= totalAmount;
+                updateWalletBalance();
+                invoiceDetails.innerHTML += `<hr><p><strong>Total Amount after Wallet Deduction:</strong> ${totalAmount.toFixed(2)} INR</p>`;
+                window.location.href = "getmeticket.html"; // Redirect to the next page
+            } else {
+                alert("Insufficient wallet balance. Please add funds to your wallet.");
+            }
+        }
+
+        toggleWiFiForm();
+        updateInvoice();
+        updateWalletBalance();
+    </script>
+</body>
+
+</html>
